@@ -1,6 +1,10 @@
 # GDriveAutoExpireDelete
 GDriveAutoExpireDelete is an automated AppScript tool designed for managing Google Drive files. It deletes files based on expiration dates specified in the file names, ideal for efficient data management and organization.
 
+## Disclaimer
+Please note that the use of GDriveAutoExpireDelete is at your own risk. I assume no liability for any damages or data loss that may occur as a result of the implementation, assurance, or execution of this script. It is the responsibility of the user to take all necessary precautions and to ensure that the use of the script does not adversely affect their data or systems. Prior to implementing the script, it is recommended to perform appropriate testing and backups.
+
+
 ## Step-by-Step Guide
 
 ### Step 1: Creating a Google Sheet
