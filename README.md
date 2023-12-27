@@ -97,20 +97,31 @@ GDriveAutoExpireDelete is an automated AppScript tool designed for managing Goog
 
 ### Step 4: Configuration of the trigger
 
-1. **Step 1**
+1. **Select the trigger icon** from the side menu to set up time-based triggers.
 <img width="1112" alt="Screenshot11" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/2fe5e3a5-1097-4c2b-8ebf-4fa77c9ab84d">
 
-2. **Step 2**
+2. **Add two triggers**: one for `updateFileListInSheet` and another for `deleteExpiredFiles`.
 <img width="1112" alt="Screenshot12" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/9aa8da47-f30d-42f8-8e4c-3f6bd0544f45">
 
-3. **Step 3**
+3. **Configure `updateFileListInSheet`** as follows:
+   - Select the `updateFileListInSheet` function.
+   - Set the version, for example, version 1.
+   - Choose 'Time-driven' as the event source.
+   - For the type of time-based trigger, select 'Day timer'.
+   - Set the time of day to run between 0 to 1 AM.
 <img width="815" alt="Screenshot13" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/fa1016de-f95a-4fb5-8581-4a2f4aef44dc">
 
-4. **Step 4**
+4. **Configure `deleteExpiredFiles`** as follows:
+   - Select the `deleteExpiredFiles` function.
+   - Set the version, for example, version 1.
+   - Choose 'Time-driven' as the event source.
+   - For the type of time-based trigger, select 'Day timer'.
+   - Set the time of day to run between 1 to 2 AM, slightly offset from the update trigger.
+
 <img width="815" alt="Screenshot14" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/34a92ed8-77ea-493e-9c8b-5137e3a81381">
 
-5. **Step 5**
+5. **Save your configurations**.
 <img width="588" alt="Screenshot15" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/6811b816-ee18-47e7-b3cc-3900cf7bfcba">
 
-6. **Final**
+6. If all steps have been correctly configured, your setup is now complete. At midnight, all relevant data meeting the requirements will be deleted.
 
