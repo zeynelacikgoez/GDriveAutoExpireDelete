@@ -132,17 +132,24 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
    - Set the time of day to run between 0 to 1 AM.
 <img width="815" alt="Screenshot13" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/fa1016de-f95a-4fb5-8581-4a2f4aef44dc">
 
-4. **Configure `deleteExpiredFiles`** as follows:
+4. **Configure `updateExpiryDatesInSheet`** as follows:
+   - Select the `updateFileListInSheet` function.
+   - Set the version, for example, version 1.
+   - Choose 'Time-driven' as the event source.
+   - For the type of time-based trigger, select 'Day timer'.
+   - Set the time of day to run between 1 to 2 AM.
+
+5. **Configure `deleteExpiredFiles`** as follows:
    - Select the `deleteExpiredFiles` function.
    - Set the version, for example, version 1.
    - Choose 'Time-driven' as the event source.
    - For the type of time-based trigger, select 'Day timer'.
-   - Set the time of day to run between 1 to 2 AM, slightly offset from the update trigger.
+   - Set the time of day to run between 2 to 3 AM, slightly offset from the update trigger.
 
 <img width="815" alt="Screenshot14" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/34a92ed8-77ea-493e-9c8b-5137e3a81381">
 
-5. **Save your configurations**.
+6. **Save your configurations**.
 <img width="588" alt="Screenshot15" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/6811b816-ee18-47e7-b3cc-3900cf7bfcba">
 
-6. If all steps have been correctly configured, your setup is now complete. At midnight, all relevant data meeting the requirements will be deleted.
+7. If all steps have been correctly configured, your setup is now complete. At midnight, all relevant data meeting the requirements will be deleted.
 
