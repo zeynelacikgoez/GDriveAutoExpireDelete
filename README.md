@@ -6,6 +6,8 @@ GDriveAutoExpireDelete is an automated AppScript tool designed for managing Goog
 ### Step 1: Creating a Google Sheet
 1. **Create a Google Sheet** in your Google Drive. For this example, name it "database".
 2. **Create columns** for FileID, FileName, CreationDate, and ExpiryDate.
+<img width="1314" alt="Screenshot16" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/e73a8376-6d15-4e8e-b058-3cf9e718701b">
+
 3. **Copy the SheetID** from the URL of your Google Sheet.
 <img width="712" alt="Screenshot1" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/d2322fd3-8b17-414c-ac17-9b9412f18191">
 
