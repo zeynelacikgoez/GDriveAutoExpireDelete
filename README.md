@@ -58,7 +58,6 @@ GDriveAutoExpireDelete is an automated AppScript tool designed for managing Goog
         dataToAdd.push([file.getId(), file.getName(), file.getDateCreated().toDateString()]);
       }
     
-      // Hinzufügen der gesammelten Daten in einem Batch-Vorgang
       if (dataToAdd.length > 0) {
         var startRow = sheet.getLastRow() + 1;
         var numRows = dataToAdd.length;
@@ -69,4 +68,27 @@ GDriveAutoExpireDelete is an automated AppScript tool designed for managing Goog
     ```
 4. **Replace `Replace this with the ID of your Google Sheet` with the ID of the Google Sheet you copied earlier.**
 
+### Step 3: Deployment of the Google AppScript App
+1. **Step 1**
 <img width="1151" alt="Screenshot2" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/d40bf9c0-d925-4da5-b63d-1cbd19866916">
+
+2. **Step 2**
+<img width="1151" alt="Screenshot4" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/f1fd5023-e9a5-4314-965b-85dba4947302">
+
+3. **Step 3**
+<img width="1151" alt="Screenshot5" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/dfc31018-1515-4f81-864a-4273585eba4f">
+
+4. **Step 4**
+<img width="1151" alt="Screenshot6" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/3ad06201-9798-45fb-9ab9-984cf6101422">
+
+5. **Step 5**
+<img width="1151" alt="Screenshot7" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/e69a93d1-74be-4dc2-b332-c2171492c7c9">
+
+6. **Step 6**
+<img width="1151" alt="Screenshot8" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/a0de7452-efb1-41c3-a5d3-b762e4bfe121">
+
+7. **Step 7**
+<img width="1151" alt="Screenshot9" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/4b1f8fdf-e4d7-4f85-9060-266751642c84">
+
+8. **Step 8**
+<img width="1151" alt="Screenshot10" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/0960034b-8e32-48d1-a6f6-34fb39f04331">
