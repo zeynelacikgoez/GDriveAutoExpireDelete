@@ -4,6 +4,7 @@ GDriveAutoExpireDelete is an automated AppScript tool designed for managing Goog
 ## Disclaimer
 Please note that the use of GDriveAutoExpireDelete is at your own risk. I assume no liability for any damages or data loss that may occur as a result of the implementation, assurance, or execution of this script. It is the responsibility of the user to take all necessary precautions and to ensure that the use of the script does not adversely affect their data or systems. Prior to implementing the script, it is recommended to perform appropriate testing and backups.
 
+
 ## How GDriveAutoExpireDelete Works
 
 GDriveAutoExpireDelete is designed to simplify file management in Google Drive by automatically deleting files that have reached a set expiration date. The tool works as follows:
@@ -16,10 +17,9 @@ GDriveAutoExpireDelete is designed to simplify file management in Google Drive b
 
 3. **Deleting Expired Files:** Once the expiration date of a file is reached, it is automatically moved to the Google Drive trash. The script performs regular checks to ensure that all files whose expiration date has passed are treated accordingly.
 
-4. **Updating the File List:** In addition to the deletion functions, the script updates a Google Sheets database with information about the files, such as their creation date and expiration date. This allows for efficient monitoring and management of the files.
+4. **Updating the File List:** In addition to the deletion functions, the script updates a Google Sheets database with information about the files, such as their creation date and expiration date. This allows for efficient monitoring and management of the files. **Important Note:** Therefore, the Google Sheet database must not be deleted from Google Drive, as it is essential for the script's operation.
 
 By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains tidy and free of outdated files. However, please note that the correct application and configuration of the tool is your responsibility. Make sure to configure and use the tool according to the instructions.
-
 
 
 ## Step-by-Step Guide
