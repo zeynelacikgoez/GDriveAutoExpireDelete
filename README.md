@@ -246,7 +246,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
    }
    ```
 
-5. **Insert the following code into `Delete.gs`:**
+5. **Insert the following code into `CommonFunctions.gs`:**
    ```javascript
    function parseExpiryTag(fileName) {
      var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
