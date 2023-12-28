@@ -150,7 +150,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
 ### Step 4: Configuration of the trigger
 
 1. **Select the trigger icon** from the side menu to set up time-based triggers.
-<img width="1112" alt="Screenshot11" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/2fe5e3a5-1097-4c2b-8ebf-4fa77c9ab84d">
+<img width="1228" alt="Screenshot19" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/b5efc626-022a-40c9-ac81-66f44e2fbd99">
 
 2. **Add three triggers**: one for `updateFileListInSheet`, `updateExpiryDatesInSheet` and another for `deleteExpiredFiles`.
 <img width="664" alt="Screenshot12" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/ae83694f-2749-4f7e-9055-b69fda6decf6">
