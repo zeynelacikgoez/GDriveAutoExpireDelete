@@ -34,12 +34,12 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
 
 ### Step 2: Setup and Configuration in Google AppScript
 1. **Create a new project** in Google AppScript. Important: Avoid using the word "Expire" in the project name to prevent conflicts with the search algorithm.
-2. **Create an additional script.**
+2. **Create two additional scripts.**
 <img width="390" alt="Screenshot3" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/d52c5114-310e-496e-9492-f668826c4e5e">
 
 
 #### Step 2.1: Renaming and Code for `UpdateList`, `SyncCheck` and `Delete.gs`
-1. Rename the new scripts to "Delete" and "SyncCheck", so the file ends up as `Delete.gs`. Rename the existing `Code.gs` to `UpdateList.gs`.
+1. Rename the new scripts to `UpdateList`, `SyncCheck` and `Delete.gs`.
 2. **Insert the following code into `UpdateList.gs`:**
    ```javascript
    var sheetId = 'Replace this with the ID of your Google Sheet';
