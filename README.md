@@ -49,7 +49,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
 <img width="390" alt="Screenshot3" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/d52c5114-310e-496e-9492-f668826c4e5e">
 
 
-#### Step 2.1: Renaming and Code for `UpdateList`, `SyncCheck` and `Delete.gs`
+#### Step 2.1: Renaming and Code for `UpdateList`, `SyncCheck`, `Delete.gs` and `CommonFunctions.gs`
 1. Rename the new scripts to `UpdateList`, `SyncCheck`, `Delete.gs` and `CommonFunctions.gs`.
 2. **Insert the following code into `UpdateList.gs`:**
    ```javascript
