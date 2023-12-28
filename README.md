@@ -85,35 +85,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
        sheet.getRange(startRow, 1, numRows, numColumns).setValues(dataToAdd);
      }
    }
-   
-   function parseExpiryTag(fileName) {
-     var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
-     if (match) {
-       var amount = parseInt(match[1], 10);
-       var unit = match[2] || 'd'; 
-       return { amount, unit };
-     }
-     return null;
-   }
-   
-   function calculateExpiryDate(createdDate, amount, unit) {
-     var expiryDate = new Date(createdDate);
-     switch (unit) {
-       case 'd': // Tage
-         expiryDate.setDate(expiryDate.getDate() + amount);
-         break;
-       case 'w': // Wochen
-         expiryDate.setDate(expiryDate.getDate() + amount * 7);
-         break;
-       case 'm': // Monate
-         expiryDate.setMonth(expiryDate.getMonth() + amount);
-         break;
-       case 'y': // Jahre
-         expiryDate.setFullYear(expiryDate.getFullYear() + amount);
-         break;
-     }
-     return expiryDate;
-   }
+
     ```
 3. **Insert the following code into `SyncCheck.gs`:**
    ```javascript
@@ -151,35 +123,6 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
      }
    }
    
-   function parseExpiryTag(fileName) {
-     var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
-     if (match) {
-       var amount = parseInt(match[1], 10);
-       var unit = match[2] || 'd';
-       return { amount, unit };
-     }
-     return null;
-   }
-   
-   function calculateExpiryDate(createdDate, amount, unit) {
-     var expiryDate = new Date(createdDate);
-     switch (unit) {
-       case 'd':
-         expiryDate.setDate(expiryDate.getDate() + amount);
-         break;
-       case 'w':
-         expiryDate.setDate(expiryDate.getDate() + amount * 7);
-         break;
-       case 'm':
-         expiryDate.setMonth(expiryDate.getMonth() + amount);
-         break;
-       case 'y':
-         expiryDate.setFullYear(expiryDate.getFullYear() + amount);
-         break;
-     }
-     return expiryDate;
-   }
-
    ```
    
 4. **Insert the following code into `Delete.gs`:**
@@ -216,34 +159,6 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
      }
    }
    
-   function parseExpiryTag(fileName) {
-     var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
-     if (match) {
-       var amount = parseInt(match[1], 10);
-       var unit = match[2] || 'd'; 
-       return { amount, unit };
-     }
-     return null;
-   }
-   
-   function calculateExpiryDate(createdDate, amount, unit) {
-     var expiryDate = new Date(createdDate);
-     switch (unit) {
-       case 'd':
-         expiryDate.setDate(expiryDate.getDate() + amount);
-         break;
-       case 'w':
-         expiryDate.setDate(expiryDate.getDate() + amount * 7);
-         break;
-       case 'm':
-         expiryDate.setMonth(expiryDate.getMonth() + amount);
-         break;
-       case 'y':
-         expiryDate.setFullYear(expiryDate.getFullYear() + amount);
-         break;
-     }
-     return expiryDate;
-   }
    ```
 
 5. **Insert the following code into `CommonFunctions.gs`:**
