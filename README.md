@@ -141,7 +141,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
 6. **Google will notify you** that it's an unverified app. Click on `Advanced`.
 <img width="1151" alt="Screenshot8" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/a0de7452-efb1-41c3-a5d3-b762e4bfe121">
 
-7. **Then click on `Go to <name of app>`**
+7. **Then click on `Go to <name of app> (unsafe)`**
 <img width="1151" alt="Screenshot9" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/4b1f8fdf-e4d7-4f85-9060-266751642c84">
 
 8. **Grant the app permission** to read, edit, and delete your data as required.
