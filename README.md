@@ -246,7 +246,39 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
    }
    ```
 
-4. **Replace `Replace this with the ID of your Google Sheet` with the ID of the Google Sheet you copied earlier.**
+5. **Insert the following code into `Delete.gs`:**
+   ```javascript
+   function parseExpiryTag(fileName) {
+     var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
+     if (match) {
+       var amount = parseInt(match[1], 10);
+       var unit = match[2] || 'd';
+       return { amount, unit };
+     }
+     return null;
+   }
+   
+   function calculateExpiryDate(createdDate, amount, unit) {
+     var expiryDate = new Date(createdDate);
+     switch (unit) {
+       case 'd':
+         expiryDate.setDate(expiryDate.getDate() + amount);
+         break;
+       case 'w':
+         expiryDate.setDate(expiryDate.getDate() + amount * 7);
+         break;
+       case 'm':
+         expiryDate.setMonth(expiryDate.getMonth() + amount);
+         break;
+       case 'y':
+         expiryDate.setFullYear(expiryDate.getFullYear() + amount);
+         break;
+     }
+     return expiryDate;
+   }
+   ```
+
+6. **Replace `Replace this with the ID of your Google Sheet` with the ID of the Google Sheet you copied earlier.**
 
 ### Step 3: Deployment of the Google AppScript App
 1. **Initiate a new deployment** by clicking on `Deploy` > `New deployment`.
