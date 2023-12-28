@@ -9,14 +9,16 @@ function updateFileListInSheet() {
   while (files.hasNext()) {
     var file = files.next();
     var fileName = file.getName();
-    var expireInfo = fileName.match(/#expire(\d+)/);
+    var expireInfo = parseExpiryTag(fileName);
 
     if (expireInfo) {
-      var daysToExpire = expireInfo[1];
-      var newRowData = [file.getId(), fileName, file.getDateCreated().toDateString(), daysToExpire];
+      var fileCreatedDate = file.getDateCreated();
+      var expiryDate = calculateExpiryDate(fileCreatedDate, expireInfo.amount, expireInfo.unit);
+      var newRowData = [file.getId(), fileName, fileCreatedDate.toDateString(), expiryDate.toDateString()];
       dataToAdd.push(newRowData);
 
-      var newFileName = fileName.replace('#expire', '#deletein');
+      // Optional: Dateinamen aktualisieren, um das Tag zu ändern
+      var newFileName = fileName.replace(/#expire\d+(d|w|m|y)?/, '#deletein' + expireInfo.amount + expireInfo.unit);
       file.setName(newFileName);
     }
   }
@@ -27,4 +29,33 @@ function updateFileListInSheet() {
     var numColumns = dataToAdd[0].length;
     sheet.getRange(startRow, 1, numRows, numColumns).setValues(dataToAdd);
   }
+}
+
+function parseExpiryTag(fileName) {
+  var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
+  if (match) {
+    var amount = parseInt(match[1], 10);
+    var unit = match[2] || 'd'; 
+    return { amount, unit };
+  }
+  return null;
+}
+
+function calculateExpiryDate(createdDate, amount, unit) {
+  var expiryDate = new Date(createdDate);
+  switch (unit) {
+    case 'd': // Tage
+      expiryDate.setDate(expiryDate.getDate() + amount);
+      break;
+    case 'w': // Wochen
+      expiryDate.setDate(expiryDate.getDate() + amount * 7);
+      break;
+    case 'm': // Monate
+      expiryDate.setMonth(expiryDate.getMonth() + amount);
+      break;
+    case 'y': // Jahre
+      expiryDate.setFullYear(expiryDate.getFullYear() + amount);
+      break;
+  }
+  return expiryDate;
 }
