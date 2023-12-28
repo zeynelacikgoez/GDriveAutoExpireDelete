@@ -1,27 +1,30 @@
 var sheetId = 'Replace this with the ID of your Google Sheet';
 
-function updateExpiryDatesInSheet() {
+function updateFileListInSheet() {
   var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
-  var data = sheet.getDataRange().getValues();
+  var searchQuery = 'title contains "#expire"';
+  var files = DriveApp.searchFiles(searchQuery);
+  var dataToAdd = [];
 
-  for (var i = 1; i < data.length; i++) {
-    var row = data[i];
-    var fileId = row[0];
-    var file;
-
-    try {
-      file = DriveApp.getFileById(fileId);
-    } catch (e) {
-      continue;
-    }
-
+  while (files.hasNext()) {
+    var file = files.next();
     var fileName = file.getName();
-    var expireMatch = fileName.match(/#(deletein|expire)(\d+)/);
-    var sheetExpireDate = row[3];
+    var expireInfo = fileName.match(/#expire(\d+)/);
 
-    if (expireMatch && expireMatch[2] !== sheetExpireDate) {
-      // Aktualisieren des Ablaufdatums im Sheet
-      sheet.getRange(i + 1, 4).setValue(expireMatch[2]);
+    if (expireInfo) {
+      var daysToExpire = expireInfo[1];
+      var newRowData = [file.getId(), fileName, file.getDateCreated().toDateString(), daysToExpire];
+      dataToAdd.push(newRowData);
+
+      var newFileName = fileName.replace('#expire', '#deletein');
+      file.setName(newFileName);
     }
+  }
+
+  if (dataToAdd.length > 0) {
+    var startRow = sheet.getLastRow() + 1;
+    var numRows = dataToAdd.length;
+    var numColumns = dataToAdd[0].length;
+    sheet.getRange(startRow, 1, numRows, numColumns).setValues(dataToAdd);
   }
 }
