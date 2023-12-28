@@ -45,7 +45,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
 
 ### Step 2: Setup and Configuration in Google AppScript
 1. **Create a new project** in Google AppScript. Important: Avoid using the word "Expire" in the project name to prevent conflicts with the search algorithm.
-2. **Create two additional scripts.**
+2. **Create three additional scripts.**
 <img width="390" alt="Screenshot3" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/d52c5114-310e-496e-9492-f668826c4e5e">
 
 
