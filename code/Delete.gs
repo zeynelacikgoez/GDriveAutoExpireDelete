@@ -14,7 +14,7 @@ function deleteExpiredFiles() {
     
     var expireMatch = parseExpiryTag(fileName);
     if (!expireMatch) {
-      continue; // Überspringe, wenn kein gültiges Ablaufdatum-Tag gefunden wurde
+      continue;
     }
 
     var calculatedExpiryDate = calculateExpiryDate(fileCreatedDate, expireMatch.amount, expireMatch.unit);
@@ -24,8 +24,7 @@ function deleteExpiredFiles() {
         DriveApp.getFileById(fileId).setTrashed(true);
         sheet.deleteRow(i + 1);
       } catch (e) {
-        // Fehlerbehandlung, falls die Datei nicht gefunden oder bereits gelöscht wurde
-        console.error('Fehler beim Löschen der Datei: ' + e.message);
+        console.error('Error deleting the file: ' + e.message);
       }
     }
   }
@@ -35,7 +34,7 @@ function parseExpiryTag(fileName) {
   var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
   if (match) {
     var amount = parseInt(match[1], 10);
-    var unit = match[2] || 'd'; // Setze 'd' als Standard, wenn keine Einheit angegeben ist
+    var unit = match[2] || 'd'; 
     return { amount, unit };
   }
   return null;
@@ -44,16 +43,16 @@ function parseExpiryTag(fileName) {
 function calculateExpiryDate(createdDate, amount, unit) {
   var expiryDate = new Date(createdDate);
   switch (unit) {
-    case 'd': // Tage
+    case 'd':
       expiryDate.setDate(expiryDate.getDate() + amount);
       break;
-    case 'w': // Wochen
+    case 'w':
       expiryDate.setDate(expiryDate.getDate() + amount * 7);
       break;
-    case 'm': // Monate
+    case 'm':
       expiryDate.setMonth(expiryDate.getMonth() + amount);
       break;
-    case 'y': // Jahre
+    case 'y':
       expiryDate.setFullYear(expiryDate.getFullYear() + amount);
       break;
   }
