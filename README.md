@@ -54,7 +54,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
 2. **Insert the following code into `UpdateList.gs`:**
    ```javascript
    var sheetId = 'Replace this with the ID of your Google Sheet';
-       
+   
    function updateFileListInSheet() {
      var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
      var searchQuery = 'title contains "#expire"';
@@ -63,7 +63,19 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
    
      while (files.hasNext()) {
        var file = files.next();
-       dataToAdd.push([file.getId(), file.getName(), file.getDateCreated().toDateString()]);
+       var fileName = file.getName();
+       var expireInfo = parseExpiryTag(fileName);
+   
+       if (expireInfo) {
+         var fileCreatedDate = file.getDateCreated();
+         var expiryDate = calculateExpiryDate(fileCreatedDate, expireInfo.amount, expireInfo.unit);
+         var newRowData = [file.getId(), fileName, fileCreatedDate.toDateString(), expiryDate.toDateString()];
+         dataToAdd.push(newRowData);
+   
+         // Optional: Dateinamen aktualisieren, um das Tag zu ändern
+         var newFileName = fileName.replace(/#expire\d+(d|w|m|y)?/, '#deletein' + expireInfo.amount + expireInfo.unit);
+         file.setName(newFileName);
+       }
      }
    
      if (dataToAdd.length > 0) {
@@ -72,6 +84,35 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
        var numColumns = dataToAdd[0].length;
        sheet.getRange(startRow, 1, numRows, numColumns).setValues(dataToAdd);
      }
+   }
+   
+   function parseExpiryTag(fileName) {
+     var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
+     if (match) {
+       var amount = parseInt(match[1], 10);
+       var unit = match[2] || 'd'; 
+       return { amount, unit };
+     }
+     return null;
+   }
+   
+   function calculateExpiryDate(createdDate, amount, unit) {
+     var expiryDate = new Date(createdDate);
+     switch (unit) {
+       case 'd': // Tage
+         expiryDate.setDate(expiryDate.getDate() + amount);
+         break;
+       case 'w': // Wochen
+         expiryDate.setDate(expiryDate.getDate() + amount * 7);
+         break;
+       case 'm': // Monate
+         expiryDate.setMonth(expiryDate.getMonth() + amount);
+         break;
+       case 'y': // Jahre
+         expiryDate.setFullYear(expiryDate.getFullYear() + amount);
+         break;
+     }
+     return expiryDate;
    }
     ```
 3. **Insert the following code into `SyncCheck.gs`:**
@@ -94,23 +135,57 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
        }
    
        var fileName = file.getName();
-       var expireMatch = fileName.match(/#(deletein|expire)(\d+)/);
+       var expiryTag = parseExpiryTag(fileName);
    
-       if (expireMatch) {
-         var sheetExpireDate = row[3];
-         if (expireMatch[2] !== sheetExpireDate) {
-           sheet.getRange(i + 1, 4).setValue(expireMatch[2]);
+       if (expiryTag) {
+         var fileCreatedDate = new Date(row[2]);
+         var calculatedExpiryDate = calculateExpiryDate(fileCreatedDate, expiryTag.amount, expiryTag.unit);
+         var sheetExpiryDate = new Date(row[3]);
+   
+         if (calculatedExpiryDate.getTime() !== sheetExpiryDate.getTime()) {
+           sheet.getRange(i + 1, 4).setValue(calculatedExpiryDate.toDateString());
          }
        } else {
          sheet.deleteRow(i + 1);
        }
      }
    }
+   
+   function parseExpiryTag(fileName) {
+     var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
+     if (match) {
+       var amount = parseInt(match[1], 10);
+       var unit = match[2] || 'd';
+       return { amount, unit };
+     }
+     return null;
+   }
+   
+   function calculateExpiryDate(createdDate, amount, unit) {
+     var expiryDate = new Date(createdDate);
+     switch (unit) {
+       case 'd':
+         expiryDate.setDate(expiryDate.getDate() + amount);
+         break;
+       case 'w':
+         expiryDate.setDate(expiryDate.getDate() + amount * 7);
+         break;
+       case 'm':
+         expiryDate.setMonth(expiryDate.getMonth() + amount);
+         break;
+       case 'y':
+         expiryDate.setFullYear(expiryDate.getFullYear() + amount);
+         break;
+     }
+     return expiryDate;
+   }
 
    ```
    
 4. **Insert the following code into `Delete.gs`:**
    ```javascript
+   var sheetId = 'Replace this with the ID of your Google Sheet';
+   
    function deleteExpiredFiles() {
      var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
      var data = sheet.getDataRange().getValues();
@@ -121,18 +196,54 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
        var fileId = row[0];
        var fileName = row[1];
        var fileCreatedDate = new Date(row[2]);
-       var expireInfo = fileName.match(/#expire(\d+)/);
+       var sheetExpiryDate = new Date(row[3]);
+       
+       var expireMatch = parseExpiryTag(fileName);
+       if (!expireMatch) {
+         continue; // Überspringe, wenn kein gültiges Ablaufdatum-Tag gefunden wurde
+       }
    
-       if (expireInfo) {
-         var daysToExpire = parseInt(expireInfo[1], 10);
-         var fileAge = (currentDate - fileCreatedDate) / (24 * 3600 * 1000);
+       var calculatedExpiryDate = calculateExpiryDate(fileCreatedDate, expireMatch.amount, expireMatch.unit);
    
-         if (fileAge > daysToExpire) {
+       if (currentDate >= calculatedExpiryDate) {
+         try {
            DriveApp.getFileById(fileId).setTrashed(true);
            sheet.deleteRow(i + 1);
+         } catch (e) {
+           // Fehlerbehandlung, falls die Datei nicht gefunden oder bereits gelöscht wurde
+           console.error('Fehler beim Löschen der Datei: ' + e.message);
          }
        }
      }
+   }
+   
+   function parseExpiryTag(fileName) {
+     var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
+     if (match) {
+       var amount = parseInt(match[1], 10);
+       var unit = match[2] || 'd'; // Setze 'd' als Standard, wenn keine Einheit angegeben ist
+       return { amount, unit };
+     }
+     return null;
+   }
+   
+   function calculateExpiryDate(createdDate, amount, unit) {
+     var expiryDate = new Date(createdDate);
+     switch (unit) {
+       case 'd': // Tage
+         expiryDate.setDate(expiryDate.getDate() + amount);
+         break;
+       case 'w': // Wochen
+         expiryDate.setDate(expiryDate.getDate() + amount * 7);
+         break;
+       case 'm': // Monate
+         expiryDate.setMonth(expiryDate.getMonth() + amount);
+         break;
+       case 'y': // Jahre
+         expiryDate.setFullYear(expiryDate.getFullYear() + amount);
+         break;
+     }
+     return expiryDate;
    }
    ```
 
