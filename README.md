@@ -65,7 +65,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
     ```
 3. **Insert the following code into `SyncCheck.gs`:**
    ```javascript
-   var sheetId = 'Hier die ID deines Google Sheets einfügen';
+   var sheetId = 'Replace this with the ID of your Google Sheet';
    
    function updateExpiryDatesInSheet() {
      var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
