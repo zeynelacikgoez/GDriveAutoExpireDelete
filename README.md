@@ -290,7 +290,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
 <img width="815" alt="Screenshot13" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/fa1016de-f95a-4fb5-8581-4a2f4aef44dc">
 
 4. **Configure `updateExpiryDatesAndCheckTags`** as follows:
-   - Select the `updateExpiryDatesInSheet` function.
+   - Select the `updateExpiryDatesAndCheckTags` function.
    - Set the version, for example, version 1.
    - Choose 'Time-driven' as the event source.
    - For the type of time-based trigger, select 'Day timer'.
