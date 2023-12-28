@@ -12,20 +12,52 @@ function updateExpiryDatesAndCheckTags() {
     try {
       file = DriveApp.getFileById(fileId);
     } catch (e) {
-      // Datei existiert möglicherweise nicht mehr
       continue;
     }
 
     var fileName = file.getName();
-    var expireMatch = fileName.match(/#(deletein|expire)(\d+)/);
+    var expiryTag = parseExpiryTag(fileName);
 
-    if (expireMatch) {
-      var sheetExpireDate = row[3];
-      if (expireMatch[2] !== sheetExpireDate) {
-        sheet.getRange(i + 1, 4).setValue(expireMatch[2]);
+    if (expiryTag) {
+      var fileCreatedDate = new Date(row[2]);
+      var calculatedExpiryDate = calculateExpiryDate(fileCreatedDate, expiryTag.amount, expiryTag.unit);
+      var sheetExpiryDate = new Date(row[3]);
+
+      if (calculatedExpiryDate.getTime() !== sheetExpiryDate.getTime()) {
+        sheet.getRange(i + 1, 4).setValue(calculatedExpiryDate.toDateString());
       }
     } else {
       sheet.deleteRow(i + 1);
     }
   }
 }
+
+function parseExpiryTag(fileName) {
+  var match = fileName.match(/#expire(\d+)(d|w|m|y)?/);
+  if (match) {
+    var amount = parseInt(match[1], 10);
+    var unit = match[2] || 'd'; // Setze 'd' als Standard, wenn keine Einheit angegeben ist
+    return { amount, unit };
+  }
+  return null;
+}
+
+function calculateExpiryDate(createdDate, amount, unit) {
+  var expiryDate = new Date(createdDate);
+  switch (unit) {
+    case 'd': // Tage
+      expiryDate.setDate(expiryDate.getDate() + amount);
+      break;
+    case 'w': // Wochen
+      expiryDate.setDate(expiryDate.getDate() + amount * 7);
+      break;
+    case 'm': // Monate
+      expiryDate.setMonth(expiryDate.getMonth() + amount);
+      break;
+    case 'y': // Jahre
+      expiryDate.setFullYear(expiryDate.getFullYear() + amount);
+      break;
+  }
+  return expiryDate;
+}
+
