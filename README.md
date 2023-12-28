@@ -38,9 +38,62 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
 <img width="390" alt="Screenshot3" src="https://github.com/zeynelacikgoez/GDriveAutoExpireDelete/assets/137368801/d52c5114-310e-496e-9492-f668826c4e5e">
 
 
-#### Step 2.1: Renaming and Code for `Delete.gs`
-1. Rename the new script to "Delete", so the file ends up as `Delete.gs`. Rename the existing `Code.gs` to `UpdateList.gs`.
-2. **Insert the following code into `Delete.gs`:**
+#### Step 2.1: Renaming and Code for `UpdateList`, `SyncCheck` and `Delete.gs`
+1. Rename the new scripts to "Delete" and "SyncCheck", so the file ends up as `Delete.gs`. Rename the existing `Code.gs` to `UpdateList.gs`.
+2. **Insert the following code into `UpdateList.gs`:**
+   ```javascript
+    var sheetId = 'Replace this with the ID of your Google Sheet';
+    
+    function updateFileListInSheet() {
+      var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
+      var searchQuery = 'title contains "#expire"';
+      var files = DriveApp.searchFiles(searchQuery);
+      var dataToAdd = [];
+    
+      while (files.hasNext()) {
+        var file = files.next();
+        dataToAdd.push([file.getId(), file.getName(), file.getDateCreated().toDateString()]);
+      }
+    
+      if (dataToAdd.length > 0) {
+        var startRow = sheet.getLastRow() + 1;
+        var numRows = dataToAdd.length;
+        var numColumns = dataToAdd[0].length;
+        sheet.getRange(startRow, 1, numRows, numColumns).setValues(dataToAdd);
+      }
+    }
+    ```
+3. **Insert the following code into `SyncCheck.gs`:**
+   ```javascript
+    var sheetId = 'Replace this with the ID of your Google Sheet';
+
+function updateExpiryDatesInSheet() {
+  var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+
+  for (var i = 1; i < data.length; i++) {
+    var row = data[i];
+    var fileId = row[0];
+    var file;
+
+    try {
+      file = DriveApp.getFileById(fileId);
+    } catch (e) {
+      continue;
+    }
+
+    var fileName = file.getName();
+    var expireMatch = fileName.match(/#(deletein|expire)(\d+)/);
+    var sheetExpireDate = row[3];
+
+    if (expireMatch && expireMatch[2] !== sheetExpireDate) {
+      sheet.getRange(i + 1, 4).setValue(expireMatch[2]);
+    }
+  }
+}
+    ```
+   
+4. **Insert the following code into `Delete.gs`:**
    ```javascript
     function deleteExpiredFiles() {
       var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
@@ -66,29 +119,7 @@ By using GDriveAutoExpireDelete, you can ensure that your Google Drive remains t
       }
     }
     ```
-3. **Insert the following code into `UpdateList.gs`:**
-   ```javascript
-    var sheetId = 'Replace this with the ID of your Google Sheet';
-    
-    function updateFileListInSheet() {
-      var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
-      var searchQuery = 'title contains "#expire"';
-      var files = DriveApp.searchFiles(searchQuery);
-      var dataToAdd = [];
-    
-      while (files.hasNext()) {
-        var file = files.next();
-        dataToAdd.push([file.getId(), file.getName(), file.getDateCreated().toDateString()]);
-      }
-    
-      if (dataToAdd.length > 0) {
-        var startRow = sheet.getLastRow() + 1;
-        var numRows = dataToAdd.length;
-        var numColumns = dataToAdd[0].length;
-        sheet.getRange(startRow, 1, numRows, numColumns).setValues(dataToAdd);
-      }
-    }
-    ```
+
 4. **Replace `Replace this with the ID of your Google Sheet` with the ID of the Google Sheet you copied earlier.**
 
 ### Step 3: Deployment of the Google AppScript App
