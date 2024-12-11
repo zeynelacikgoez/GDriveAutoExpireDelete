@@ -314,4 +314,4 @@ For the full license terms, please refer to the [LICENSE](LICENSE) file.
 
 If you have any questions or comments about the project, feel free to reach out:
 
-- **GitHub:** [Your GitHub Profile](https://github.com/zeynelacikgoez)
+- **GitHub:** [GitHub Profile](https://github.com/zeynelacikgoez)
